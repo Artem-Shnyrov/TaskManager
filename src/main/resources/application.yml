@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskmanager
+    username: artemshnyrev
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update      # auto-creates/updates tables from your entities
+    show-sql: true          # logs SQL so you can see what Hibernate does
+    properties:
+      hibernate:
+        format_sql: true
