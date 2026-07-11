@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskmanager
-    username: artemshnyrev
+    username: artemsnyrev
     password:
   jpa:
     hibernate:
