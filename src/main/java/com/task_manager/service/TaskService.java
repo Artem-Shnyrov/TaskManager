@@ -6,6 +6,7 @@ import com.task_manager.entity.Project;
 import com.task_manager.entity.Task;
 import com.task_manager.entity.TaskStatus;
 import com.task_manager.entity.User;
+import com.task_manager.exception.ResourceNotFoundException;
 import com.task_manager.repository.ProjectRepository;
 import com.task_manager.repository.TaskRepository;
 import com.task_manager.repository.UserRepository;
@@ -26,11 +27,11 @@ public class TaskService {
     @Transactional
     public TaskResponse createTask(CreateTaskRequest request) {
         User owner = userRepository.findById(request.ownerId())
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Owner not found"));
 
         Project project = null;
         if (request.projectId() != null) {
-            project = projectRepository.findById(request.projectId()).orElseThrow(() -> new RuntimeException("Project not found"));
+            project = projectRepository.findById(request.projectId()).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
         }
 
         Task task = Task.builder()
@@ -48,7 +49,7 @@ public class TaskService {
 
     @Transactional(readOnly = true)
     public TaskResponse getById(Long id){
-        return toResponse(taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found")));
+        return toResponse(taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found")));
     }
 
     @Transactional(readOnly = true)
