@@ -25,8 +25,8 @@ public class TaskService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public TaskResponse createTask(CreateTaskRequest request) {
-        User owner = userRepository.findById(request.ownerId())
+    public TaskResponse createTask(CreateTaskRequest request, String email) {
+        User owner = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner not found"));
 
         Project project = null;
