@@ -6,6 +6,8 @@ import com.task_manager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +20,8 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponse createTask(@Valid @RequestBody CreateTaskRequest request) {
-        return taskService.createTask(request);
+    public TaskResponse createTask(@Valid @RequestBody CreateTaskRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return taskService.createTask(request, userDetails.getUsername());
     }
 
     @GetMapping

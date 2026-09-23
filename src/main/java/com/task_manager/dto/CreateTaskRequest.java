@@ -5,5 +5,5 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record CreateTaskRequest(@NotBlank String title, String description, LocalDate dueDate, @NotNull TaskPriority priority, Long projectId, @NotNull Long ownerId) {
+public record CreateTaskRequest(@NotBlank String title, String description, LocalDate dueDate, @NotNull TaskPriority priority, Long projectId) {
 }
