@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskmanager
-    username: artemsnyrev
-    password:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/taskmanager}
+    username: ${SPRING_DATASOURCE_USERNAME:artemsnyrev}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: update      # auto-creates/updates tables from your entities
@@ -12,5 +12,5 @@ spring:
         format_sql: true
 
 jwt:
-  secret: 9upGEMMhF+oxhcDEVogayixXOvmk6by5mSF5i+XXtlE=
+  secret: ${JWT_SECRET:9upGEMMhF+oxhcDEVogayixXOvmk6by5mSF5i+XXtlE=}
   expiration: 3600000   # 1 hour, in milliseconds
