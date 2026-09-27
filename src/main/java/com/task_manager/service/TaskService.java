@@ -2,6 +2,7 @@ package com.task_manager.service;
 
 import com.task_manager.dto.CreateTaskRequest;
 import com.task_manager.dto.TaskResponse;
+import com.task_manager.dto.UpdateTaskRequest;
 import com.task_manager.entity.Project;
 import com.task_manager.entity.Task;
 import com.task_manager.entity.TaskStatus;
@@ -45,6 +46,47 @@ public class TaskService {
                 .build();
         Task savedTask = taskRepository.save(task);
         return toResponse(savedTask);
+    }
+
+    @Transactional
+    public TaskResponse updateTask(Long id, UpdateTaskRequest request, String email) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        if (!task.getOwner().getEmail().equals(email)) {
+            throw new ResourceNotFoundException("Task not found");
+        }
+
+        if(request.title() != null) {
+            task.setTitle(request.title());
+        }
+
+        if(request.description() != null) {
+            task.setDescription(request.description());
+        }
+
+        if(request.dueDate() != null) {
+            task.setDueDate(request.dueDate());
+        }
+
+        if(request.priority() != null) {
+            task.setPriority(request.priority());
+        }
+
+        if(request.status() != null) {
+            task.setStatus(request.status());
+        }
+
+        taskRepository.save(task);
+        return toResponse(task);
+    }
+
+    @Transactional
+    public void deleteTaskBtId(Long id, String email) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+        if (!task.getOwner().getEmail().equals(email)) {
+            throw new ResourceNotFoundException("Task not found");
+        }
+        taskRepository.delete(task);
     }
 
     @Transactional(readOnly = true)

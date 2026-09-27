@@ -2,6 +2,7 @@ package com.task_manager.controller;
 
 import com.task_manager.dto.CreateTaskRequest;
 import com.task_manager.dto.TaskResponse;
+import com.task_manager.dto.UpdateTaskRequest;
 import com.task_manager.service.TaskService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -34,5 +35,16 @@ public class TaskController {
     @GetMapping("/{id}")
     public TaskResponse getTaskById(@PathVariable Long id) {
         return taskService.getById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTaskById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        taskService.deleteTaskBtId(id,  userDetails.getUsername());
+    }
+
+    @PatchMapping("/{id}")
+    public TaskResponse updateTask(@RequestBody UpdateTaskRequest request, @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return taskService.updateTask(id, request, userDetails.getUsername());
     }
 }
