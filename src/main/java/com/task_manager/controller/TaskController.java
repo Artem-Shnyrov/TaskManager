@@ -28,13 +28,13 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponse> getAll() {
-        return taskService.getAll();
+    public List<TaskResponse> getAll(@AuthenticationPrincipal UserDetails userDetails) {
+        return taskService.getAll(userDetails.getUsername());
     }
 
     @GetMapping("/{id}")
-    public TaskResponse getTaskById(@PathVariable Long id) {
-        return taskService.getById(id);
+    public TaskResponse getTaskById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return taskService.getById(id, userDetails.getUsername());
     }
 
     @DeleteMapping("/{id}")
