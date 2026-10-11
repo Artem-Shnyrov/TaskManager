@@ -88,7 +88,7 @@ function RegisterPage() {
                     </button>
                 </form>
                 <p className="auth-switch">
-                    Already have an account? <Link to="/register">Log in</Link>
+                    Already have an account? <Link to="/login">Log in</Link>
                 </p>
             </div>
         </div>
