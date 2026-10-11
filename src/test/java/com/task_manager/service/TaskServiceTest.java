@@ -91,18 +91,19 @@ public class TaskServiceTest {
 
         when(taskRepository.findById(5L)).thenReturn(Optional.of(task));
 
-        TaskResponse response = taskService.getById(5L);
+        TaskResponse response = taskService.getById(5L, user.getEmail());
 
         assertEquals(5L, response.id());
         assertEquals("Buy milk", response.title());
     }
 
     @Test
-    void getById_throwsWhenUserNotFound() {
+    void getById_throwsWhenTaskNotFound() {
         when(taskRepository.findById(5L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> taskService.getById(5L));
+                () -> taskService.getById(5L, "a@b.com")
+        );
     }
 
     @Test
@@ -111,9 +112,9 @@ public class TaskServiceTest {
         Task task1 = Task.builder().id(1L).title("First").status(TaskStatus.TODO).priority(TaskPriority.LOW).owner(user).build();
         Task task2 = Task.builder().id(2L).title("Second").status(TaskStatus.DONE).priority(TaskPriority.HIGH).owner(user).build();
 
-        when(taskRepository.findAll()).thenReturn(List.of(task1, task2));
+        when(taskRepository.findByOwnerEmail(user.getEmail())).thenReturn(List.of(task1, task2));
 
-        List<TaskResponse> responses = taskService.getAll();
+        List<TaskResponse> responses = taskService.getAll(user.getEmail());
 
         assertEquals(2, responses.size());
         assertEquals("First", responses.get(0).title());

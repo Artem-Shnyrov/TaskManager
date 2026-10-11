@@ -90,13 +90,20 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
-    public TaskResponse getById(Long id){
-        return toResponse(taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found")));
+    public TaskResponse getById(Long id, String email){
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        if (!task.getOwner().getEmail().equals(email)) {
+            throw new ResourceNotFoundException("Task not found");
+        }
+
+        return toResponse(task);
     }
 
     @Transactional(readOnly = true)
-    public List<TaskResponse> getAll(){
-        return taskRepository.findAll().stream().map(this::toResponse).toList();
+    public List<TaskResponse> getAll(String email){
+        return taskRepository.findByOwnerEmail(email).stream().map(this::toResponse).toList();
     }
 
     private TaskResponse toResponse(Task task) {

@@ -12,5 +12,5 @@ spring:
         format_sql: true
 
 jwt:
-  secret: ${JWT_SECRET:dev-only-insecure-secret-not-for-production-min-256-bits-xxxxx}
+  secret: ${JWT_SECRET:P90ICiUkcEAD2tz7+e8X017vzNqfN+uBmK7JAS0hCp4=}
   expiration: 3600000   # 1 hour, in milliseconds
